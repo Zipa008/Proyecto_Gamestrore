@@ -8,27 +8,29 @@
 #include <thread>
 #include <cstdlib>
 
+using namespace std;
+
 // Definición de la clase Juego que representa un videojuego
 class Juego {
 private:
-    std::string nombre;
-    std::string categoria;
-    int tamano;  // en kilobytes
+    string nombre;
+    string categoria;
+    int tamano; // en kilobytes
     double precio;
     int licenciasDisponibles;
     int licenciasVendidas;
 
 public:
     // Constructor de la clase Juego
-    Juego(std::string nombre, std::string categoria, int tamano, double precio, int licenciasDisponibles)
+    Juego(string nombre, string categoria, int tamano, double precio, int licenciasDisponibles)
         : nombre(nombre), categoria(categoria), tamano(tamano), precio(precio), licenciasDisponibles(licenciasDisponibles), licenciasVendidas(0) {}
 
     // Métodos para obtener información sobre el juego
-    std::string getNombre() const {
+    string getNombre() const {
         return nombre;
     }
 
-    std::string getCategoria() const {
+    string getCategoria() const {
         return categoria;
     }
 
@@ -37,7 +39,7 @@ public:
     }
 
     int getTamanoGB() const {
-        return tamano / 1024;  // 1 GB = 1024 KB
+        return tamano / 1024; // 1 GB = 1024 KB
     }
 
     double getPrecioColombiano() const {
@@ -62,42 +64,42 @@ public:
         if (cantidad <= licenciasDisponibles) {
             licenciasDisponibles -= cantidad;
             licenciasVendidas += cantidad;
-            std::cout << "Se han vendido " << cantidad << " licencias de " << nombre << ". Licencias restantes: " << licenciasDisponibles << "\n";
+            cout << "Se han vendido " << cantidad << " licencias de " << nombre << ". Licencias restantes: " << licenciasDisponibles << "\n";
         } else {
-            std::cout << "No hay suficientes licencias disponibles para vender de " << nombre << ". Licencias disponibles: " << licenciasDisponibles << "\n";
+            cout << "No hay suficientes licencias disponibles para vender de " << nombre << ". Licencias disponibles: " << licenciasDisponibles << "\n";
         }
     }
 
     // Método para mostrar información del juego
     void mostrarInformacion() const {
-        std::cout << "Nombre: " << nombre << "\n";
-        std::cout << "Categoría: " << categoria << "\n";
-        std::cout << "Tamaño: " << tamano << " KB (" << getTamanoGB() << " GB)\n";
-        std::cout << "Precio: $" << precio << " (USD: $" << getPrecioDolar() << ")\n";
-        std::cout << "Licencias Disponibles: " << licenciasDisponibles << "\n";
-        std::cout << "Licencias Vendidas: " << licenciasVendidas << "\n";
+        cout << "Nombre: " << nombre << "\n";
+        cout << "Categoría: " << categoria << "\n";
+        cout << "Tamaño: " << tamano << " KB (" << getTamanoGB() << " GB)\n";
+        cout << "Precio: $" << precio << " (USD: $" << getPrecioDolar() << ")\n";
+        cout << "Licencias Disponibles: " << licenciasDisponibles << "\n";
+        cout << "Licencias Vendidas: " << licenciasVendidas << "\n";
     }
 };
 
 // Definición de la clase Carrito que representa el carrito de compras
 class Carrito {
 private:
-    std::vector<std::pair<Juego, int>> juegosEnCarrito;
+    vector<std::pair<Juego, int>> juegosEnCarrito;
 
 public:
     // Método para agregar licencias de un juego al carrito
     void agregarAlCarrito(const Juego& juego, int cantidad) {
         if (cantidad <= juego.getLicenciasDisponibles()) {
             juegosEnCarrito.push_back(std::make_pair(juego, cantidad));
-            std::cout << "Se han agregado " << cantidad << " licencias de " << juego.getNombre() << " al carrito.\n";
+            cout << "Se han agregado " << cantidad << " licencias de " << juego.getNombre() << " al carrito.\n";
         } else {
-            std::cout << "No hay suficientes licencias disponibles para agregar al carrito de " << juego.getNombre() << "\n";
+            cout << "No hay suficientes licencias disponibles para agregar al carrito de " << juego.getNombre() << "\n";
         }
     }
 
     // Método para mostrar el contenido del carrito
     void mostrarCarrito() const {
-        std::cout << "Juegos en el carrito:\n";
+        cout << "Juegos en el carrito:\n";
         double totalPesos = 0;
         double totalDolares = 0;
 
@@ -105,15 +107,15 @@ public:
             const Juego& juego = par.first;
             int cantidad = par.second;
 
-            std::cout << "- " << cantidad << " licencias de " << juego.getNombre() << " - Valor: $" << juego.getPrecioColombiano() * cantidad
+            cout << "- " << cantidad << " licencias de " << juego.getNombre() << " - Valor: $" << juego.getPrecioColombiano() * cantidad
                       << " (USD: $" << juego.getPrecioDolar() * cantidad << ")\n";
 
             totalPesos += juego.getPrecioColombiano() * cantidad;
             totalDolares += juego.getPrecioDolar() * cantidad;
         }
 
-        std::cout << "Total en pesos colombianos: $" << totalPesos << "\n";
-        std::cout << "Total en dólares: $" << totalDolares << "\n";
+        cout << "Total en pesos colombianos: $" << totalPesos << "\n";
+        cout << "Total en dólares: $" << totalDolares << "\n";
     }
 
     // Método para verificar si el carrito está vacío
@@ -127,7 +129,7 @@ public:
     }
 
     // Método para obtener la lista de juegos en el carrito
-    const std::vector<std::pair<Juego, int>>& getJuegosEnCarrito() const {
+    const vector<pair<Juego, int>>& getJuegosEnCarrito() const {
         return juegosEnCarrito;
     }
 
@@ -150,11 +152,11 @@ public:
 // Definición de la clase AppStore que representa una tienda de aplicaciones de juegos
 class AppStore {
 private:
-    std::vector<Juego> juegos;            // Lista de juegos disponibles
-    std::vector<Juego> juegosMasComprados; // Lista de juegos más comprados (aún no se utiliza)
-    Carrito carrito;                       // Carrito de compras del usuario
-    double saldoCuenta;                    // Saldo del usuario
-    double saldoAcumulado;                 // Saldo acumulado para compras con tarjeta
+    vector<Juego> juegos; // Lista de juegos disponibles
+    vector<Juego> juegosMasComprados; // Lista de juegos más comprados (aún no se utiliza)
+    Carrito carrito; // Carrito de compras del usuario
+    double saldoCuenta; // Saldo del usuario
+    double saldoAcumulado; // Saldo acumulado para compras con tarjeta
 
 public:
     // Constructor de la clase AppStore
@@ -205,27 +207,27 @@ public:
         juegos.push_back(Juego("Bratz Flaunt Your Fashion", "Aventura", 70'000 * 1024, 69'900, 90));
         
     // Configurar la semilla para generar números aleatorios únicos (no utilizado en este fragmento)
-        std::srand(std::time(0));
+        srand(time(0));
     }
 
     // Método para mostrar la lista de juegos disponibles y ofrecer opciones
     void mostrarListaDeJuegos() {
-        std::system("clear");  // Limpia la consola (dependiente del sistema operativo)
+        system("clear"); // Limpia la consola (dependiente del sistema operativo)
 
         // Muestra la lista de juegos disponibles numerados
-        std::cout << "Lista de juegos disponibles:\n";
+        cout << "Lista de juegos disponibles:\n";
         for (size_t i = 0; i < juegos.size(); ++i) {
-            std::cout << i + 1 << ". " << juegos[i].getNombre() << "\n";
+            cout << i + 1 << ". " << juegos[i].getNombre() << "\n";
         }
 
         int opcionJuego;
-        std::cout << "Seleccione un juego para más opciones (0 para volver al menú principal): ";
-        std::cin >> opcionJuego;
+        cout << "Seleccione un juego para más opciones (0 para volver al menú principal): ";
+        cin >> opcionJuego;
 
         if (opcionJuego >= 1 && opcionJuego <= juegos.size()) {
-            opcionesJuego(juegos[opcionJuego - 1]);  // Llama a las opciones para el juego seleccionado
+            opcionesJuego(juegos[opcionJuego - 1]); // Llama a las opciones para el juego seleccionado
         } else if (opcionJuego != 0) {
-            std::cout << "Opción no válida. Volviendo al menú principal.\n";
+            cout << "Opción no válida. Volviendo al menú principal.\n";
         }
     }
 
@@ -234,62 +236,62 @@ public:
         int opcion;
 
         do {
-            std::system("clear");
-            std::cout << "\nOpciones para " << juego.getNombre() << ":\n";
-            std::cout << "1. Mostrar más información\n";
-            std::cout << "2. Añadir licencias al carrito\n";
-            std::cout << "3. Añadir más juegos al carrito\n";
-            std::cout << "4. Comprar carrito\n";
-            std::cout << "5. Vender licencias\n";
-            std::cout << "6. Ver carrito\n";
-            std::cout << "7. Volver al menú principal\n";
-            std::cout << "Seleccione una opción: ";
-            std::cin >> opcion;
+            system("clear");
+            cout << "\nOpciones para " << juego.getNombre() << ":\n";
+            cout << "1. Mostrar más información\n";
+            cout << "2. Añadir licencias al carrito\n";
+            cout << "3. Añadir más juegos al carrito\n";
+            cout << "4. Comprar carrito\n";
+            cout << "5. Vender licencias\n";
+            cout << "6. Ver carrito\n";
+            cout << "7. Volver al menú principal\n";
+            cout << "Seleccione una opción: ";
+            cin >> opcion;
 
             switch (opcion) {
                 case 1:
-                    std::system("clear");
-                    juego.mostrarInformacion();  // Muestra información detallada del juego
-                    std::cout << "Presiona enter para continuar...";
-                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpiar el buffer de entrada
-                    std::cin.get(); // Esperar a que el usuario presione enter
-                    std::system("clear");
+                    system("clear");
+                    juego.mostrarInformacion(); // Muestra información detallada del juego
+                    cout << "Presiona enter para continuar...";
+                    cin.ignore(std::numeric_limits<streamsize>::max(), '\n'); // Limpiar el buffer de entrada
+                    cin.get(); // Esperar a que el usuario presione enter
+                    system("clear");
                     break;
                 case 2:
-                    std::system("clear");
-                    añadirLicenciasAlCarrito(juego);  // Permite al usuario agregar licencias al carrito
+                    system("clear");
+                    añadirLicenciasAlCarrito(juego); // Permite al usuario agregar licencias al carrito
                     break;
                 case 3:
-                    std::system("clear");
-                    mostrarListaDeJuegos();  // Muestra nuevamente la lista de juegos para agregar más al carrito
-                    std::system("clear");
+                    system("clear");
+                    mostrarListaDeJuegos(); // Muestra nuevamente la lista de juegos para agregar más al carrito
+                    system("clear");
                     break;
                 case 4:
-                    std::system("clear");
-                    comprarCarrito();  // Permite al usuario comprar el contenido del carrito
-                    std::cout << "Presiona enter para continuar...";
-                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpiar el buffer de entrada
-                    std::cin.get(); // Esperar a que el usuario presione enter
+                    system("clear");
+                    comprarCarrito(); // Permite al usuario comprar el contenido del carrito
+                    cout << "Presiona enter para continuar...";
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Limpiar el buffer de entrada
+                    cin.get(); // Esperar a que el usuario presione enter
                     break;
                 case 5:
-                    std::system("clear");
-                    venderLicencias(juego);  // Permite al usuario vender licencias del juego
-                    std::cout << "Presiona enter para continuar...";
-                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpiar el buffer de entrada
-                    std::cin.get(); // Esperar a que el usuario presione enter
+                    system("clear");
+                    venderLicencias(juego); // Permite al usuario vender licencias del juego
+                    cout << "Presiona enter para continuar...";
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Limpiar el buffer de entrada
+                    cin.get(); // Esperar a que el usuario presione enter
                     break;
                  case 6:
-                    std::system("clear");
-                    carrito.mostrarCarrito();  // Llamar al método para mostrar el contenido del carrito
-                    std::cout << "Presiona enter para continuar...";
-                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpiar el buffer de entrada
-                    std::cin.get(); // Esperar a que el usuario presione enter
+                    system("clear");
+                    carrito.mostrarCarrito(); // Llamar al método para mostrar el contenido del carrito
+                    cout << "Presiona enter para continuar...";
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Limpiar el buffer de entrada
+                    cin.get(); // Esperar a que el usuario presione enter
                     break;
                 case 7:
-                    std::cout << "Volviendo al menú principal.\n";
+                    cout << "Volviendo al menú principal.\n";
                     break;
                 default:
-                    std::cout << "Opción no válida. Inténtelo de nuevo.\n";
+                    cout << "Opción no válida. Inténtelo de nuevo.\n";
             }
         } while (opcion != 7);
     }
@@ -298,33 +300,33 @@ public:
 // Método para añadir licencias de un juego al carrito
 void añadirLicenciasAlCarrito(const Juego& juego) {
     int cantidad;
-    std::cout << "Ingrese la cantidad de licencias que desea añadir al carrito: ";
-    std::cin >> cantidad;
+    cout << "Ingrese la cantidad de licencias que desea añadir al carrito: ";
+    cin >> cantidad;
 
     // Verificar la validez de la cantidad ingresada
     if (cantidad > 0 && cantidad <= juego.getLicenciasDisponibles()) {
         carrito.agregarAlCarrito(juego, cantidad);
-        std::cout << "Se han agregado " << cantidad << " licencias de " << juego.getNombre() << " al carrito.\n";
+        cout << "Se han agregado " << cantidad << " licencias de " << juego.getNombre() << " al carrito.\n";
     } else {
-        std::cout << "Cantidad no válida. Asegúrese de ingresar un número positivo menor o igual a las licencias disponibles.\n";
+        cout << "Cantidad no válida. Asegúrese de ingresar un número positivo menor o igual a las licencias disponibles.\n";
     }
 
-    std::cout << "Presiona enter para continuar...";
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpiar el buffer de entrada
-    std::cin.get(); // Esperar a que el usuario presione enter
-    std::system("clear");
+    cout << "Presiona enter para continuar...";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Limpiar el buffer de entrada
+    cin.get(); // Esperar a que el usuario presione enter
+    system("clear");
 }
 
 
 // Método para realizar la compra del contenido del carrito
 void comprarCarrito() {
     int opcionPago;
-    std::system("clear");
+    system("clear");
 
     if (!carrito.carritoVacio()) {
         // Mostrar el saldo disponible y acumulado
-        std::cout << "Saldo disponible: $" << saldoCuenta << "\n";
-        std::cout << "Saldo acumulado: $" << saldoAcumulado << "\n";
+        cout << "Saldo disponible: $" << saldoCuenta << "\n";
+        cout << "Saldo acumulado: $" << saldoAcumulado << "\n";
 
         // Calcular el total de la compra
         double total = 0;
@@ -348,7 +350,7 @@ void comprarCarrito() {
         }
 
         // Mostrar el total antes del descuento
-        std::cout << "Total antes del descuento: $" << total << "\n";
+        cout << "Total antes del descuento: $" << total << "\n";
 
         // Aplicar descuentos según las condiciones
         double descuento = 0.0;
@@ -356,81 +358,81 @@ void comprarCarrito() {
             // Descuento del 20% por juegos de rompecabezas
             descuento = total * 0.2;
             total -= descuento;
-            std::cout << "Descuento del 20% aplicado por comprar al menos 25 licencias de juegos de rompecabezas: -$" << descuento << "\n";
+            cout << "Descuento del 20% aplicado por comprar al menos 25 licencias de juegos de rompecabezas: -$" << descuento << "\n";
         } else if (cantidadDeportes >= 20 && cantidadAccion >= 15) {
             // Descuento del 15% por juegos de deportes y acción
             descuento = total * 0.15;
             total -= descuento;
-            std::cout << "Descuento del 15% aplicado por comprar al menos 20 licencias de juegos de deportes y 15 de acción: -$" << descuento << "\n";
+            cout << "Descuento del 15% aplicado por comprar al menos 20 licencias de juegos de deportes y 15 de acción: -$" << descuento << "\n";
         }
 
         // Mostrar el total después del descuento
-        std::cout << "Total con descuento: $" << total << "\n";
+        cout << "Total con descuento: $" << total << "\n";
 
         // Mostrar las opciones de pago
-        std::cout << "Seleccione la forma de pago (1. Saldo disponible, 2. Saldo acumulado, 3. Tarjeta): ";
-        std::cin >> opcionPago;
+        cout << "Seleccione la forma de pago (1. Saldo disponible, 2. Saldo acumulado, 3. Tarjeta): ";
+        cin >> opcionPago;
 
         // Limpiar el búfer de entrada
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
         // Comprobar y procesar el pago según la opción elegida
         if (total <= saldoCuenta) {
             // Pagar con saldo disponible
-            std::cout << "¡Compra realizada con éxito! Saldo restante: $" << saldoCuenta << "\n";
+            cout << "¡Compra realizada con éxito! Saldo restante: $" << saldoCuenta << "\n";
         } else if (total <= saldoAcumulado) {
             // Pagar con saldo acumulado
-            std::cout << "¡Compra realizada con éxito! Saldo acumulado restante: $" << saldoAcumulado << "\n";
+            cout << "¡Compra realizada con éxito! Saldo acumulado restante: $" << saldoAcumulado << "\n";
         } else if (opcionPago == 3) {
             // Pagar con tarjeta
             procesarPagoConTarjeta(total);
         } else {
-            std::cout << "Opción de pago inválida. Vuelva a intentarlo.\n";
+            cout << "Opción de pago inválida. Vuelva a intentarlo.\n";
         }
 
         // Vaciar el carrito después de la compra
         carrito.vaciarCarrito();
     } else {
-        std::cout << "El carrito esta vacio. Presiona una tecla para volver al menú principal.\n";
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');  // Limpiar el búfer de entrada
-        std::cin.get();  // Esperar a que el usuario presione Enter
+        cout << "El carrito esta vacio. Presiona una tecla para volver al menú principal.\n";
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Limpiar el búfer de entrada
+        cin.get(); // Esperar a que el usuario presione Enter
     }
 }
 
 // Método para procesar el pago con tarjeta
 void procesarPagoConTarjeta(double total) {
-    std::string nombreTitular, numeroTarjeta, fechaVencimiento, codigoSeguridad;
+    string nombreTitular, numeroTarjeta, fechaVencimiento, codigoSeguridad;
 
     // Solicitar información de la tarjeta al usuario
-    std::cout << "Ingrese el nombre del titular de la tarjeta: ";
-    std::getline(std::cin, nombreTitular);
+    cout << "Ingrese el nombre del titular de la tarjeta: ";
+    getline(std::cin, nombreTitular);
 
     // Solicitar y validar el formato del número de tarjeta
     bool formatoCorrecto = false;
     do {
-        std::cout << "Ingrese el número de la tarjeta (formato XXXX-XXXX-XXXX-XXXX): ";
-        std::getline(std::cin, numeroTarjeta);
+        cout << "Ingrese el número de la tarjeta (formato XXXX-XXXX-XXXX-XXXX): ";
+        getline(std::cin, numeroTarjeta);
 
         if (numeroTarjeta.length() == 19 && numeroTarjeta[4] == '-' && numeroTarjeta[9] == '-' && numeroTarjeta[14] == '-') {
             formatoCorrecto = true;
         } else {
-            std::cout << "Formato incorrecto. Vuelva a intentarlo.\n";
+            cout << "Formato incorrecto. Vuelva a intentarlo.\n";
         }
     } while (!formatoCorrecto);
 
     // Solicitar la fecha de vencimiento y el código de seguridad
-    std::cout << "Ingrese la fecha de vencimiento (MM/YY): ";
-    std::getline(std::cin, fechaVencimiento);
-    std::cout << "Ingrese el código de seguridad: ";
-    std::getline(std::cin, codigoSeguridad);
+    cout << "Ingrese la fecha de vencimiento (MM/YY): ";
+    getline(std::cin, fechaVencimiento);
+    cout << "Ingrese el código de seguridad: ";
+    getline(std::cin, codigoSeguridad);
 
     // Simular procesamiento de pago
-    std::cout << "Procesando pago...";
-    std::this_thread::sleep_for(std::chrono::seconds(2));  // Simular un tiempo de procesamiento
+    cout << "Procesando pago...";
+    this_thread::sleep_for(chrono::seconds(2)); // Simular un tiempo de procesamiento
 
     // Mostrar el resultado del pago
-    std::cout << "\nPago exitoso. Gracias por su compra.\n";
-    std::cout << "Monto pagado: $" << total << "\n";
+    cout << "\nPago exitoso. Gracias por su compra.\n";
+    cout << "Monto pagado: $" << total << "\n";
 }
 
 
@@ -438,8 +440,8 @@ void procesarPagoConTarjeta(double total) {
 
     void venderLicencias(const Juego& juego) {
         int cantidad;
-        std::cout << "Ingrese la cantidad de licencias que desea vender a la App Store: ";
-        std::cin >> cantidad;
+        cout << "Ingrese la cantidad de licencias que desea vender a la App Store: ";
+        cin >> cantidad;
 
         if (cantidad > 0) {
             // Incrementar las licencias disponibles en el inventario
@@ -448,39 +450,39 @@ void procesarPagoConTarjeta(double total) {
             double ganancias = juego.getPrecioColombiano() * cantidad;
             saldoCuenta += ganancias;
 
-            std::cout << "¡Venta realizada con éxito! Ganancias obtenidas: $" << ganancias << " Saldo actual: $" << saldoCuenta << "\n";
+            cout << "¡Venta realizada con éxito! Ganancias obtenidas: $" << ganancias << " Saldo actual: $" << saldoCuenta << "\n";
         } else {
-            std::cout << "Cantidad no válida. Asegúrese de ingresar un número positivo.\n";
+            cout << "Cantidad no válida. Asegúrese de ingresar un número positivo.\n";
         }
     }
 
     void recargarSaldo() {
-    std::string nombreTitular, numeroTarjeta, fechaVencimiento, codigoSeguridad;
+    string nombreTitular, numeroTarjeta, fechaVencimiento, codigoSeguridad;
     double monto;
 
-    std::cout << "Ingrese el nombre del titular de la tarjeta: ";
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');  // Limpiar el buffer de entrada
-    std::getline(std::cin, nombreTitular);
+    cout << "Ingrese el nombre del titular de la tarjeta: ";
+    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpiar el buffer de entrada
+    getline(std::cin, nombreTitular);
 
     // Solicitar y validar el formato de la tarjeta
     bool formatoCorrecto = false;
     do {
-        std::cout << "Ingrese el número de la tarjeta (formato XXXX-XXXX-XXXX-XXXX): ";
-        std::cin >> numeroTarjeta;
+        cout << "Ingrese el número de la tarjeta (formato XXXX-XXXX-XXXX-XXXX): ";
+        cin >> numeroTarjeta;
 
         if (numeroTarjeta.length() == 19 && numeroTarjeta[4] == '-' && numeroTarjeta[9] == '-' && numeroTarjeta[14] == '-') {
             formatoCorrecto = true;
         } else {
-            std::cout << "Formato incorrecto. Vuelva a intentarlo.\n";
+            cout << "Formato incorrecto. Vuelva a intentarlo.\n";
         }
     } while (!formatoCorrecto);
 
-    std::cout << "Ingrese la fecha de vencimiento (MM/YY): ";
-    std::cin >> fechaVencimiento;
-    std::cout << "Ingrese el código de seguridad: ";
-    std::cin >> codigoSeguridad;
-    std::cout << "Ingrese el monto que desea recargar (en pesos colombianos): ";
-    std::cin >> monto;
+    cout << "Ingrese la fecha de vencimiento (MM/YY): ";
+    cin >> fechaVencimiento;
+    cout << "Ingrese el código de seguridad: ";
+    cin >> codigoSeguridad;
+    cout << "Ingrese el monto que desea recargar (en pesos colombianos): ";
+    cin >> monto;
 
     // Hacer la conversión a dólares
     double montoEnDolares = monto / 4100.0;
@@ -488,7 +490,7 @@ void procesarPagoConTarjeta(double total) {
          // Realizar la recarga
         saldoAcumulado += montoEnDolares;
 
-        std::cout << "Recarga realizada con éxito. Nuevo saldo acumulado: $" << saldoAcumulado << "\n";
+        cout << "Recarga realizada con éxito. Nuevo saldo acumulado: $" << saldoAcumulado << "\n";
     }
        
     
@@ -497,7 +499,7 @@ void procesarPagoConTarjeta(double total) {
         juegosMasComprados = juegos;
 
         // Ordenar los juegos por licencias vendidas de mayor a menor
-        std::sort(juegosMasComprados.begin(), juegosMasComprados.end(), [](const Juego& a, const Juego& b) {
+        sort(juegosMasComprados.begin(), juegosMasComprados.end(), [](const Juego& a, const Juego& b) {
             return a.getLicenciasVendidas() > b.getLicenciasVendidas();
         });
     }
@@ -506,211 +508,211 @@ void procesarPagoConTarjeta(double total) {
     // Actualizar la lista de juegos más comprados antes de mostrarla
     actualizarJuegosMasComprados();
 
-    std::cout << "Juegos más comprados:\n";
+    cout << "Juegos más comprados:\n";
 
     bool seMostraronJuegos = false;
 
     for (const auto& juego : juegosMasComprados) {
         if (juego.getLicenciasVendidas() > 0) {
-            std::cout << juego.getNombre() << " - Licencias vendidas: " << juego.getLicenciasVendidas() << "\n";
+            cout << juego.getNombre() << " - Licencias vendidas: " << juego.getLicenciasVendidas() << "\n";
             seMostraronJuegos = true;
         }
     }
 
     if (!seMostraronJuegos) {
-        std::cout << "No hay juegos mas comprados aún.\n";
+        cout << "No hay juegos mas comprados aún.\n";
     }
 }
 
 // Método para mostrar el menú principal de la aplicación de la tienda
 void mostrarMenuPrincipal() {
-    std::system("clear");  // Limpiar la pantalla
+    system("clear"); // Limpiar la pantalla
 
-    int opcion;  // Variable para almacenar la opción seleccionada por el usuario
-    std::string categoriaFiltro;  // Variable para almacenar la categoría de filtro en la opción 4
+    int opcion; // Variable para almacenar la opción seleccionada por el usuario
+    string categoriaFiltro; // Variable para almacenar la categoría de filtro en la opción 4
 
     // Bucle do-while para mantener el menú hasta que el usuario elija salir (opción 10)
     do {
-        std::system("clear");
+        system("clear");
         // Mostrar el encabezado del menú
-        std::cout << "\n=== Bienvenido(a) a Rakyrak tu GameStore de confianza ===\n";
-        std::cout << "1. Mostrar lista de juegos\n";
-        std::cout << "2. Filtrar juegos (A-Z)\n";
-        std::cout << "3. Filtrar juegos (Z-A)\n";
-        std::cout << "4. Filtrar juegos por categoría\n";
-        std::cout << "5. Mostrar juegos más comprados\n";
-        std::cout << "6. Mostrar carrito\n";
-        std::cout << "7. Comprar carrito\n";
-        std::cout << "8. Recargar saldo\n";
-        std::cout << "9. Información de Descuentos\n";
-        std::cout << "10. Salir\n";
-        std::cout << "Seleccione una opción: ";
-        std::cin >> opcion;  // Obtener la opción del usuario
+        cout << "\n=== Bienvenido(a) a Rakyrak tu GameStore de confianza ===\n";
+        cout << "1. Mostrar lista de juegos\n";
+        cout << "2. Filtrar juegos (A-Z)\n";
+        cout << "3. Filtrar juegos (Z-A)\n";
+        cout << "4. Filtrar juegos por categoría\n";
+        cout << "5. Mostrar juegos más comprados\n";
+        cout << "6. Mostrar carrito\n";
+        cout << "7. Comprar carrito\n";
+        cout << "8. Recargar saldo\n";
+        cout << "9. Información de Descuentos\n";
+        cout << "10. Salir\n";
+        cout << "Seleccione una opción: ";
+        cin >> opcion; // Obtener la opción del usuario
 
         // Switch para manejar las diferentes opciones del menú
         switch (opcion) {
             case 1:
-                mostrarListaDeJuegos();  // Llamar al método para mostrar la lista de juegos
+                mostrarListaDeJuegos(); // Llamar al método para mostrar la lista de juegos
                 break;
             case 2:
                 // Filtrar juegos A-Z
-                std::sort(juegos.begin(), juegos.end(), [](const Juego& a, const Juego& b) {
+                sort(juegos.begin(), juegos.end(), [](const Juego& a, const Juego& b) {
                     return a.getNombre() < b.getNombre();
                 });
-                mostrarListaDeJuegos();  // Llamar al método para mostrar la lista de juegos
+                mostrarListaDeJuegos(); // Llamar al método para mostrar la lista de juegos
                 break;
             case 3:
                 // Filtrar juegos Z-A
-                std::sort(juegos.begin(), juegos.end(), [](const Juego& a, const Juego& b) {
+                sort(juegos.begin(), juegos.end(), [](const Juego& a, const Juego& b) {
                     return a.getNombre() > b.getNombre();
                 });
-                mostrarListaDeJuegos();  // Llamar al método para mostrar la lista de juegos
+                mostrarListaDeJuegos(); // Llamar al método para mostrar la lista de juegos
                 break;
             case 4: {
-                std::system("clear");  // Limpiar la pantalla
+                system("clear"); // Limpiar la pantalla
 
                 // Mostrar lista numerada de categorías
-                std::cout << "Categorías disponibles:\n";
-                std::vector<std::string> categoriasMostradas;
+                cout << "Categorías disponibles:\n";
+                vector<std::string> categoriasMostradas;
 
-                size_t categoriaIndex = 1;  // Indice para numerar las categorías
+                size_t categoriaIndex = 1; // Indice para numerar las categorías
 
                 // Iterar sobre los juegos para obtener las categorías únicas
                 for (const auto& juego : juegos) {
-                    const std::string& categoria = juego.getCategoria();
-                    if (std::find(categoriasMostradas.begin(), categoriasMostradas.end(), categoria) == categoriasMostradas.end()) {
+                    const string& categoria = juego.getCategoria();
+                    if (find(categoriasMostradas.begin(), categoriasMostradas.end(), categoria) == categoriasMostradas.end()) {
                         categoriasMostradas.push_back(categoria);
-                        std::cout << categoriaIndex << ". " << categoria << "\n";
+                        cout << categoriaIndex << ". " << categoria << "\n";
                         ++categoriaIndex;
                     }
                 }
 
                 // Permitir al usuario seleccionar una categoría
                 int opcionCategoria;
-                std::cout << "Seleccione el número de la categoría (0 para volver al menú principal): ";
-                std::cin >> opcionCategoria;
-                std::system("clear");  // Limpiar la pantalla
+                cout << "Seleccione el número de la categoría (0 para volver al menú principal): ";
+                cin >> opcionCategoria;
+                system("clear"); // Limpiar la pantalla
 
                 // Verificar si la opción de categoría es válida
                 if (opcionCategoria >= 1 && opcionCategoria <= categoriasMostradas.size()) {
                     // Filtrar juegos por la categoría seleccionada
-                    const std::string& categoriaSeleccionada = categoriasMostradas[opcionCategoria - 1];
-                    std::cout << "Juegos en la categoría '" << categoriaSeleccionada << "':\n";
+                    const string& categoriaSeleccionada = categoriasMostradas[opcionCategoria - 1];
+                    cout << "Juegos en la categoría '" << categoriaSeleccionada << "':\n";
                 
-                    size_t juegoIndex = 1;  // Indice para numerar los juegos en la categoría seleccionada
+                    size_t juegoIndex = 1; // Indice para numerar los juegos en la categoría seleccionada
                 
                     // Iterar sobre los juegos y mostrar aquellos de la categoría seleccionada
                     for (const auto& juego : juegos) {
                         if (juego.getCategoria() == categoriaSeleccionada) {
-                            std::cout << juegoIndex << ". " << juego.getNombre() << "\n";
+                            cout << juegoIndex << ". " << juego.getNombre() << "\n";
                             ++juegoIndex;
                         }
                     }
 
                     // Permitir al usuario seleccionar un juego de la categoría y mostrar opciones
                     int opcionJuego;
-                    std::cout << "Seleccione un juego para más opciones (0 para volver al menú principal): ";
-                    std::cin >> opcionJuego;
+                    cout << "Seleccione un juego para más opciones (0 para volver al menú principal): ";
+                    cin >> opcionJuego;
 
                     // Verificar si la opción de juego es válida
                     if (opcionJuego >= 1 && opcionJuego <= juegoIndex - 1) {
                         // Obtener el juego seleccionado
-                        const auto& juegoSeleccionado = std::find_if(juegos.begin(), juegos.end(), [&](const Juego& juego) {
+                        const auto& juegoSeleccionado = find_if(juegos.begin(), juegos.end(), [&](const Juego& juego) {
                             return juego.getCategoria() == categoriaSeleccionada;
                         });
 
-                        opcionesJuego(*juegoSeleccionado);  // Llamar al método para mostrar opciones de juego
+                        opcionesJuego(*juegoSeleccionado); // Llamar al método para mostrar opciones de juego
                     } else if (opcionJuego != 0) {
-                        std::cout << "Opción no válida. Volviendo al menú principal.\n";
+                        cout << "Opción no válida. Volviendo al menú principal.\n";
                     }
                 } else if (opcionCategoria != 0) {
-                    std::cout << "Opción no válida. Volviendo al menú principal.\n";
+                    cout << "Opción no válida. Volviendo al menú principal.\n";
                 }
                 break;
             }
             case 5:
-                std::system("clear");
+                system("clear");
                 // Mostrar juegos más comprados
                 actualizarJuegosMasComprados();
-                mostrarJuegosMasComprados();  // Llamar al método para mostrar juegos más comprados
-                std::cout << "Presiona enter para continuar...";
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpiar el buffer de entrada
-                std::cin.get(); // Esperar a que el usuario presione enter
-                std::system("clear");
+                mostrarJuegosMasComprados(); // Llamar al método para mostrar juegos más comprados
+                cout << "Presiona enter para continuar...";
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpiar el buffer de entrada
+                cin.get(); // Esperar a que el usuario presione enter
+                system("clear");
                 break;
             case 6:
-                std::system("clear");
-                carrito.mostrarCarrito();  // Llamar al método para mostrar el contenido del carrito
-                std::cout << "Presiona enter para continuar...";
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpiar el buffer de entrada
-                std::cin.get(); // Esperar a que el usuario presione enter
-                std::system("clear");
+                system("clear");
+                carrito.mostrarCarrito(); // Llamar al método para mostrar el contenido del carrito
+                cout << "Presiona enter para continuar...";
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Limpiar el buffer de entrada
+                cin.get(); // Esperar a que el usuario presione enter
+                system("clear");
                 break;
             case 7:
-                comprarCarrito();  // Llamar al método para comprar el carrito
+                comprarCarrito(); // Llamar al método para comprar el carrito
                 break;
             case 8:
-                std::system("clear");  // Limpiar la pantalla
-                recargarSaldo();  // Llamar al método para recargar el saldo
-                std::cout << "Presiona enter para continuar...";
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpiar el buffer de entrada
-                std::cin.get(); // Esperar a que el usuario presione enter
-                std::system("clear");
+                system("clear"); // Limpiar la pantalla
+                recargarSaldo(); // Llamar al método para recargar el saldo
+                cout << "Presiona enter para continuar...";
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Limpiar el buffer de entrada
+                cin.get(); // Esperar a que el usuario presione enter
+                system("clear");
                 break;
 
             case 9:
-                std::system("clear");  // Limpiar la pantalla
+                system("clear"); // Limpiar la pantalla
                 // Nueva opción para mostrar información de descuentos
-                mostrarInformacionDescuentos();  // Llamar al método para mostrar información de descuentos
+                mostrarInformacionDescuentos(); // Llamar al método para mostrar información de descuentos
                 break;
 
             case 10:
-                std::system("clear");  // Limpiar la pantalla
-                std::cout << "Gracias por usar la App Store. ¡Hasta luego!\n";
+                system("clear"); // Limpiar la pantalla
+                cout << "Gracias por usar la App Store. ¡Hasta luego!\n";
                 break;
 
             default:
-                std::cout << "Opción no válida. Inténtelo de nuevo.\n";
+                cout << "Opción no válida. Inténtelo de nuevo.\n";
         }
-    } while (opcion != 10);  // Salir del bucle si la opción seleccionada es 10
+    } while (opcion != 10); // Salir del bucle si la opción seleccionada es 10
 }
 
 // Nuevo método para mostrar información de descuentos
 void mostrarInformacionDescuentos() {
-    std::cout << "=== Información de Descuentos ===\n";
-    std::cout << "En Rakyrak, ofrecemos descuentos especiales para compras en volumen:\n";
-    std::cout << "- Descuento del 20% por la compra de al menos 25 licencias de juegos de rompecabezas.\n";
-    std::cout << "- Descuento del 15% por la compra de al menos 20 licencias de juegos de deportes y 15 de acción.\n";
-    std::cout << "\n¡Aprovecha estas ofertas y disfruta de tus juegos favoritos!\n";
+    cout << "=== Información de Descuentos ===\n";
+    cout << "En Rakyrak, ofrecemos descuentos especiales para compras en volumen:\n";
+    cout << "- Descuento del 20% por la compra de al menos 25 licencias de juegos de rompecabezas.\n";
+    cout << "- Descuento del 15% por la compra de al menos 20 licencias de juegos de deportes y 15 de acción.\n";
+    cout << "\n¡Aprovecha estas ofertas y disfruta de tus juegos favoritos!\n";
 
     // Opción para regresar al menú principal
-    std::cout << "\nPresiona '1' para regresar al menú principal: ";
+    cout << "\nPresiona '1' para regresar al menú principal: ";
     int opcion;
-    std::cin >> opcion;
+    cin >> opcion;
 
     if (opcion == 1) {
         // El usuario eligió regresar al menú principal
         return;
     } else {
-        std::cout << "Opción no válida. Volviendo al menú principal.\n";
+        cout << "Opción no válida. Volviendo al menú principal.\n";
     }
 }
 
 // Método para mostrar la lista de juegos vendidos
 void mostrarListaDeJuegosVendidos() {
-    std::cout << "Lista de juegos vendidos:\n";
+    cout << "Lista de juegos vendidos:\n";
     for (const auto& juego : juegos) {
         if (juego.getLicenciasVendidas() > 0) {
-            std::cout << juego.getNombre() << " - Licencias vendidas: " << juego.getLicenciasVendidas() << "\n";
+            cout << juego.getNombre() << " - Licencias vendidas: " << juego.getLicenciasVendidas() << "\n";
         }
     }
 }
 
 // Método para ejecutar la aplicación de la tienda
 void ejecutar() {
-    std::cout << "Developers\n";
-    std::cout << "=== Jeison Cadena, Santiago Zipa, Santiago Rodriguez, Yoseph Galvis===\n";
-    mostrarMenuPrincipal();  // Llamar al método para mostrar el menú principal
+    cout << "Developers\n";
+    cout << "=== Jeison Cadena, Santiago Zipa, Santiago Rodriguez, Yoseph Galvis===\n";
+    mostrarMenuPrincipal(); // Llamar al método para mostrar el menú principal
 }
 };
 
